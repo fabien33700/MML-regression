@@ -28,7 +28,7 @@ public class MmlParsingJavaTest {
 	
 	@Test
 	public void loadModel() throws Exception {
-		MMLModel result = parseHelper.parse("datainput \"foo.csv\"\n"
+		MMLModel result = parseHelper.parse("datainput \"Boston.csv\"\n"
 				+ "mlframework scikit-learn\n"
 				+ "algorithm DT\n"
 				+ "TrainingTest { percentageTraining 70 }\n"
@@ -37,13 +37,13 @@ public class MmlParsingJavaTest {
 		Assertions.assertNotNull(result);
 		EList<Resource.Diagnostic> errors = result.eResource().getErrors();
 		Assertions.assertTrue(errors.isEmpty(), "Unexpected errors");			
-		Assertions.assertEquals("foo.csv", result.getInput().getFilelocation());			
+		Assertions.assertEquals("Boston.csv", result.getInput().getFilelocation());			
 		
 	}		
 	
 	@Test
 	public void compileDataInput() throws Exception {
-		MMLModel result = parseHelper.parse("datainput \"foo2.csv\" separator ;\n"
+		MMLModel result = parseHelper.parse("datainput \"Boston.csv\" separator ;\n"
 				+ "mlframework scikit-learn\n"
 				+ "algorithm DT\n"
 				+ "TrainingTest { percentageTraining 70 }\n"
@@ -77,15 +77,14 @@ public class MmlParsingJavaTest {
 		Process p = Runtime.getRuntime().exec("python mml.py");
 		BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String line; 
-		while ((line = in.readLine()) != null) {
+		while ((line = in.readLine()) != null) 
+		{
 			System.out.println(line);
 	    }
-
-		
-		
 	}
 
-	private String mkValueInSingleQuote(String val) {
+	private String mkValueInSingleQuote(String val) 
+	{
 		return "'" + val + "'";
 	}
 

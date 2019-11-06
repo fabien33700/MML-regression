@@ -29,7 +29,7 @@ public class MmlParsingTest {
   public void loadModel() {
     try {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("datainput \"foo.csv\"");
+      _builder.append("datainput \"Boston.csv\"");
       _builder.newLine();
       _builder.append("\t");
       _builder.append("mlframework scikit-learn");
@@ -58,7 +58,7 @@ public class MmlParsingTest {
       String _join = IterableExtensions.join(errors, ", ");
       _builder_1.append(_join);
       Assertions.assertTrue(_isEmpty, _builder_1.toString());
-      Assertions.assertEquals("foo.csv", result.getInput().getFilelocation());
+      Assertions.assertEquals("Boston.csv", result.getInput().getFilelocation());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

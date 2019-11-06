@@ -21,7 +21,7 @@ class MmlParsingTest {
 	@Test
 	def void loadModel() {
 		val result = parseHelper.parse('''
-			datainput "foo.csv"
+			datainput "Boston.csv"
 				mlframework scikit-learn
 				algorithm DT
 				TrainingTest { 
@@ -33,6 +33,6 @@ class MmlParsingTest {
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", ")»''')
 		
-		Assertions.assertEquals("foo.csv", result.input.filelocation)
+		Assertions.assertEquals("Boston.csv", result.input.filelocation)
 	}
 }

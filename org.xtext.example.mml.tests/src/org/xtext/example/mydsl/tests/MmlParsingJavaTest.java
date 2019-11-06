@@ -51,8 +51,6 @@ public class MmlParsingJavaTest {
 				+ "");
 		DataInput dataInput = result.getInput();
 		String fileLocation = dataInput.getFilelocation();
-	
-		
 		String pythonImport = "import pandas as pd\n"; 
 		String DEFAULT_COLUMN_SEPARATOR = ","; // by default
 		String csv_separator = DEFAULT_COLUMN_SEPARATOR;

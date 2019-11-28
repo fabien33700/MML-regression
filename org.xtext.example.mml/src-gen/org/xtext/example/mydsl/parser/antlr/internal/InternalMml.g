@@ -1189,6 +1189,14 @@ ruleFrameworkLang returns [Enumerator current=null]
 				newLeafNode(enumLiteral_3, grammarAccess.getFrameworkLangAccess().getXGBoostEnumLiteralDeclaration_3());
 			}
 		)
+		    |
+		(
+			enumLiteral_4='TensorFlow'
+			{
+				$current = grammarAccess.getFrameworkLangAccess().getTensorFlowEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
+				newLeafNode(enumLiteral_4, grammarAccess.getFrameworkLangAccess().getTensorFlowEnumLiteralDeclaration_4());
+			}
+		)
 	)
 ;
 

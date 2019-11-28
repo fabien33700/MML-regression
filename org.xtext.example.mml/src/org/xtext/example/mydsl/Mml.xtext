@@ -42,7 +42,7 @@ MLChoiceAlgorithm:
 ;
 
 
-enum FrameworkLang: SCIKIT="scikit-learn" | R="R" | JavaWeka="Weka" | XGBoost="xgboost";
+enum FrameworkLang: SCIKIT="scikit-learn" | R="R" | JavaWeka="Weka" | XGBoost="xgboost" | TensorFlow="TensorFlow";
 
 MLAlgorithm : (SVR|DT|RandomForest|SGD|GTB) ; // TODO: additional algorithm
 

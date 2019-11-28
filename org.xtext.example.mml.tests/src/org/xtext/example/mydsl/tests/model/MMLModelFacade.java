@@ -82,7 +82,8 @@ public class MMLModelFacade {
 		SCIKIT(FrameworkLang.SCIKIT), 
 		R(FrameworkLang.R), 
 		JAVA_WEKA(FrameworkLang.JAVA_WEKA), 
-		XG_BOOST(FrameworkLang.XG_BOOST);
+		XG_BOOST(FrameworkLang.XG_BOOST),
+		TENSOR_FLOW(FrameworkLang.TENSOR_FLOW);
 		
 		private final FrameworkLang frameworkLang;
 		

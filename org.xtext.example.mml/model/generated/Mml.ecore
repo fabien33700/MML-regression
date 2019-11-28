@@ -33,6 +33,7 @@
     <eLiterals name="R" value="1" literal="R"/>
     <eLiterals name="JavaWeka" value="2" literal="Weka"/>
     <eLiterals name="XGBoost" value="3" literal="xgboost"/>
+    <eLiterals name="TensorFlow" value="4" literal="TensorFlow"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MLAlgorithm"/>
   <eClassifiers xsi:type="ecore:EClass" name="SVR" eSuperTypes="#//MLAlgorithm">

@@ -171,12 +171,12 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 
 		if (metrics.contains(MetricEnum.MAE)) {
 			append("mae_accuracy = mean_absolute_error(y_test, clf.predict(X_test))");
-			append("print(\"mean_absolute_error = \" + mae_accuracy)");
+			append("print(\"mean_absolute_error = \" + str(mae_accuracy))");
 		}
 
 		if (metrics.contains(MetricEnum.MSE)) {
 			append("mse_accuracy = mean_squared_error(y_test, clf.predict(X_test))");
-			append("print(\"mean_squared_error = \" + mse_accuracy)");
+			append("print(\"mean_squared_error = \" + str(mse_accuracy))");
 		}
 
 		append("print(df)");

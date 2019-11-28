@@ -702,12 +702,14 @@ public class MmlGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cJavaWekaWekaKeyword_2_0 = (Keyword)cJavaWekaEnumLiteralDeclaration_2.eContents().get(0);
 		private final EnumLiteralDeclaration cXGBoostEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
 		private final Keyword cXGBoostXgboostKeyword_3_0 = (Keyword)cXGBoostEnumLiteralDeclaration_3.eContents().get(0);
+		private final EnumLiteralDeclaration cTensorFlowEnumLiteralDeclaration_4 = (EnumLiteralDeclaration)cAlternatives.eContents().get(4);
+		private final Keyword cTensorFlowTensorFlowKeyword_4_0 = (Keyword)cTensorFlowEnumLiteralDeclaration_4.eContents().get(0);
 		
 		//enum FrameworkLang:
-		//	SCIKIT="scikit-learn" | R | JavaWeka="Weka" | XGBoost="xgboost";
+		//	SCIKIT="scikit-learn" | R | JavaWeka="Weka" | XGBoost="xgboost" | TensorFlow;
 		public EnumRule getRule() { return rule; }
 		
-		//SCIKIT="scikit-learn" | R | JavaWeka="Weka" | XGBoost="xgboost"
+		//SCIKIT="scikit-learn" | R | JavaWeka="Weka" | XGBoost="xgboost" | TensorFlow
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//SCIKIT="scikit-learn"
@@ -733,6 +735,12 @@ public class MmlGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//"xgboost"
 		public Keyword getXGBoostXgboostKeyword_3_0() { return cXGBoostXgboostKeyword_3_0; }
+		
+		//TensorFlow
+		public EnumLiteralDeclaration getTensorFlowEnumLiteralDeclaration_4() { return cTensorFlowEnumLiteralDeclaration_4; }
+		
+		//"TensorFlow"
+		public Keyword getTensorFlowTensorFlowKeyword_4_0() { return cTensorFlowTensorFlowKeyword_4_0; }
 	}
 	public class SVMKernelElements extends AbstractEnumRuleElementFinder {
 		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.example.mydsl.Mml.SVMKernel");
@@ -956,7 +964,7 @@ public class MmlGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//enum FrameworkLang:
-	//	SCIKIT="scikit-learn" | R | JavaWeka="Weka" | XGBoost="xgboost";
+	//	SCIKIT="scikit-learn" | R | JavaWeka="Weka" | XGBoost="xgboost" | TensorFlow;
 	public FrameworkLangElements getFrameworkLangAccess() {
 		return eFrameworkLang;
 	}

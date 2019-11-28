@@ -3,6 +3,10 @@ package org.xtext.example.mydsl.tests;
 import static org.junit.Assert.assertThat;
 import static org.xtext.example.mydsl.tests.TextFileMatcher.containsSameText;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
 import org.eclipse.xtext.testing.InjectWith;
@@ -14,6 +18,7 @@ import org.xtext.example.mydsl.mml.MMLModel;
 import org.xtext.example.mydsl.tests.core.AbstractMmlCompiler;
 import org.xtext.example.mydsl.tests.core.CompilerFactory;
 
+import com.google.common.io.Files;
 import com.google.inject.Inject;
 
 // TODO Test manquant : CrossValidation
@@ -41,7 +46,7 @@ public class ScikitLearnCompilerTest {
 
 	@Test
 	public void test_NoRformula() throws Exception {
-		String source = "datainput \"foo2.csv\" separator ,\n" + 
+		String source = "datainput \"Boston.csv\" separator ,\n" + 
 				"mlframework scikit-learn\n"+ 
 				"algorithm DT\n" + 
 				"TrainingTest { percentageTraining 70 }\n" + 
@@ -52,7 +57,7 @@ public class ScikitLearnCompilerTest {
 				"from sklearn.tree import DecisionTreeRegressor\n" + 
 				"from sklearn.model_selection import train_test_split\n" + 
 				"from sklearn.metrics import mean_absolute_error\n" + 
-				"df = pd.read_csv('foo2.csv', sep=',')\n" + 
+				"df = pd.read_csv('Boston.csv', sep=',')\n" + 
 				"df.head()\n" + 
 				"y = df.iloc[:,-1]\n" + 
 				"X = df[df.columns[:-1]]\n" + 
@@ -61,12 +66,13 @@ public class ScikitLearnCompilerTest {
 				"clf = DecisionTreeRegressor()\n" + 
 				"clf.fit(X_train, y_train)\n" + 
 				"mae_accuracy = mean_absolute_error(y_test, clf.predict(X_test))\n" + 
-				"print(\"mean_absolute_error = \" + mae_accuracy)\n" + 
+				"print(\"mean_absolute_error = \" + str(mae_accuracy))\n" + 
 				"print(df)\n" +
 				"";
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
+		execute(result);
 	}
 	
 	@Test
@@ -92,7 +98,7 @@ public class ScikitLearnCompilerTest {
 				"clf = DecisionTreeRegressor()\n" + 
 				"clf.fit(X_train, y_train)\n" + 
 				"mae_accuracy = mean_absolute_error(y_test, clf.predict(X_test))\n" + 
-				"print(\"mean_absolute_error = \" + mae_accuracy)\n" + 
+				"print(\"mean_absolute_error = \" + str(mae_accuracy))\n" + 
 				"print(df)\n" +
 				"";
 
@@ -123,7 +129,7 @@ public class ScikitLearnCompilerTest {
 				"clf = DecisionTreeRegressor()\n" + 
 				"clf.fit(X_train, y_train)\n" + 
 				"mae_accuracy = mean_absolute_error(y_test, clf.predict(X_test))\n" + 
-				"print(\"mean_absolute_error = \" + mae_accuracy)\n" + 
+				"print(\"mean_absolute_error = \" + str(mae_accuracy))\n" + 
 				"print(df)\n" +
 				"";
 
@@ -141,5 +147,19 @@ public class ScikitLearnCompilerTest {
 				"mean_squared_error mean_absolute_error"
 				+ "";
 		// TODO ...
+	}
+	
+	private void execute(String program) throws IOException
+	{
+		Files.write(program.getBytes(), new File("program.py"));
+		Process p = Runtime.getRuntime().exec("python program.py");
+		BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		String line; 
+		while ((line = in.readLine()) != null) 
+		{
+			// FIXME utiliser un logger
+			System.out.println(line);
+	    }
+		
 	}
 }

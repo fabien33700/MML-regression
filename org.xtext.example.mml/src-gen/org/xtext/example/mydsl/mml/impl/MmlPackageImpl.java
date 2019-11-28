@@ -955,6 +955,7 @@ public class MmlPackageImpl extends EPackageImpl implements MmlPackage
     addEEnumLiteral(frameworkLangEEnum, FrameworkLang.R);
     addEEnumLiteral(frameworkLangEEnum, FrameworkLang.JAVA_WEKA);
     addEEnumLiteral(frameworkLangEEnum, FrameworkLang.XG_BOOST);
+    addEEnumLiteral(frameworkLangEEnum, FrameworkLang.TENSOR_FLOW);
 
     initEEnum(svmKernelEEnum, SVMKernel.class, "SVMKernel");
     addEEnumLiteral(svmKernelEEnum, SVMKernel.LINEAR);

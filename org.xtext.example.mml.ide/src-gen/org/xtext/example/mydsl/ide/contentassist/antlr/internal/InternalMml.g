@@ -848,6 +848,12 @@ rule__FrameworkLang__Alternatives
 		('xgboost')
 		{ after(grammarAccess.getFrameworkLangAccess().getXGBoostEnumLiteralDeclaration_3()); }
 	)
+	|
+	(
+		{ before(grammarAccess.getFrameworkLangAccess().getTensorFlowEnumLiteralDeclaration_4()); }
+		('TensorFlow')
+		{ after(grammarAccess.getFrameworkLangAccess().getTensorFlowEnumLiteralDeclaration_4()); }
+	)
 ;
 finally {
 	restoreStackSize(stackSize);

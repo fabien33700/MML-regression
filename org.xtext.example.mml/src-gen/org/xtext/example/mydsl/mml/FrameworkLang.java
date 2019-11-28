@@ -58,7 +58,17 @@ public enum FrameworkLang implements Enumerator
    * @generated
    * @ordered
    */
-  XG_BOOST(3, "XGBoost", "xgboost");
+  XG_BOOST(3, "XGBoost", "xgboost"),
+
+  /**
+   * The '<em><b>Tensor Flow</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #TENSOR_FLOW_VALUE
+   * @generated
+   * @ordered
+   */
+  TENSOR_FLOW(4, "TensorFlow", "TensorFlow");
 
   /**
    * The '<em><b>SCIKIT</b></em>' literal value.
@@ -105,6 +115,17 @@ public enum FrameworkLang implements Enumerator
   public static final int XG_BOOST_VALUE = 3;
 
   /**
+   * The '<em><b>Tensor Flow</b></em>' literal value.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #TENSOR_FLOW
+   * @model name="TensorFlow"
+   * @generated
+   * @ordered
+   */
+  public static final int TENSOR_FLOW_VALUE = 4;
+
+  /**
    * An array of all the '<em><b>Framework Lang</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -117,6 +138,7 @@ public enum FrameworkLang implements Enumerator
       R,
       JAVA_WEKA,
       XG_BOOST,
+      TENSOR_FLOW,
     };
 
   /**
@@ -185,6 +207,7 @@ public enum FrameworkLang implements Enumerator
       case R_VALUE: return R;
       case JAVA_WEKA_VALUE: return JAVA_WEKA;
       case XG_BOOST_VALUE: return XG_BOOST;
+      case TENSOR_FLOW_VALUE: return TENSOR_FLOW;
     }
     return null;
   }

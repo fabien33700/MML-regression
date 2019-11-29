@@ -160,8 +160,10 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 			append("clf.fit(X_train, y_train)");
 		} else if (stratification == StratificationEnum.CROSS_VALIDATION) {
 			// L'appel de la cross validation dépend de l'objet de l'algorithme utilisé
-			append("X_train, X_test, y_train, y_test = cross_validate(clf, X, y, cv=%d)",
+			append("scoring = ['precision_macro', 'recall_macro']");
+			append("scores = cross_validate(clf, X, y, scoring=scoring, cv=%d)",
 					model.getValidation().getValue());
+			append("print(scores)");
 		}
 	}
 
@@ -169,6 +171,7 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 	public void writeResultPrinting() {
 		List<MetricEnum> metrics = model.getValidation().getMetrics();
 
+		//FIXME la méthode est différente pour le cross validation
 		if (metrics.contains(MetricEnum.MAE)) {
 			append("mae_accuracy = mean_absolute_error(y_test, clf.predict(X_test))");
 			append("print(\"mean_absolute_error = \" + str(mae_accuracy))");

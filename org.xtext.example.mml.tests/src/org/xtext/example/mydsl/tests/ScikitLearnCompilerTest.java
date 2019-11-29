@@ -72,12 +72,12 @@ public class ScikitLearnCompilerTest {
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
-		execute(result);
+		execute(result,"test1");
 	}
 	
 	@Test
 	public void test_Rformula_predictive_columns() throws Exception {
-		String source = "datainput \"foo2.csv\" separator ,\n" + 
+		String source = "datainput \"Boston.csv\" separator ,\n" + 
 				"mlframework scikit-learn\n"+ 
 				"algorithm DT\n" + 
 				"formula \"medv\" ~\n" +
@@ -89,7 +89,7 @@ public class ScikitLearnCompilerTest {
 				"from sklearn.tree import DecisionTreeRegressor\n" + 
 				"from sklearn.model_selection import train_test_split\n" + 
 				"from sklearn.metrics import mean_absolute_error\n" + 
-				"df = pd.read_csv('foo2.csv', sep=',')\n" + 
+				"df = pd.read_csv('Boston.csv', sep=',')\n" + 
 				"df.head()\n" + 
 				"y = df[\"medv\"]\n" + 
 				"X = df.drop(columns=[\"medv\"])\n" + 
@@ -104,11 +104,12 @@ public class ScikitLearnCompilerTest {
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
+		execute(result,"test2");
 	}
 	
 	@Test
 	public void test_Rformula_predictors_columns() throws Exception {
-		String source = "datainput \"foo2.csv\" separator ,\n" + 
+		String source = "datainput \"Boston.csv\" separator ,\n" + 
 				"mlframework scikit-learn\n"+ 
 				"algorithm DT\n" + 
 				"formula \"medv\" ~ \"crim\" + \"zn\" + \"chas\" + \"rm\"\n" +
@@ -120,7 +121,7 @@ public class ScikitLearnCompilerTest {
 				"from sklearn.tree import DecisionTreeRegressor\n" + 
 				"from sklearn.model_selection import train_test_split\n" + 
 				"from sklearn.metrics import mean_absolute_error\n" + 
-				"df = pd.read_csv('foo2.csv', sep=',')\n" + 
+				"df = pd.read_csv('Boston.csv', sep=',')\n" + 
 				"df.head()\n" + 
 				"y = df[\"medv\"]\n" + 
 				"X = df[[\"crim\", \"zn\", \"chas\", \"rm\"]]\n" + 
@@ -135,11 +136,12 @@ public class ScikitLearnCompilerTest {
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
+		execute(result,"test3");
 	}
 	
 	@Test
 	public void test_Rformula_all_predictors_columns() throws Exception {
-		String source = "datainput \"foo2.csv\"\n" + 
+		String source = "datainput \"Boston.csv\"\n" + 
 				"mlframework scikit-learn \n" + 
 				"algorithm SVR C=5.0 kernel=linear\n" + 
 				"formula \"medv\" ~ .\n" + 
@@ -147,12 +149,36 @@ public class ScikitLearnCompilerTest {
 				"mean_squared_error mean_absolute_error"
 				+ "";
 		// TODO ...
+		String expected=
+				"import pandas as pd\n"+
+				"from sklearn.svm import SVC\n"+
+				"from sklearn.model_selection import cross_validate\n"+
+				"from sklearn.metrics import mean_squared_error\n"+
+				"from sklearn.metrics import mean_absolute_error\n"+
+				"df = pd.read_csv('Boston.csv', sep=',')\n"+
+				"df.head()\n"+
+				"y = df[\"medv\"]\n"+
+				"X = df.drop(columns=[\"medv\"])\n"+
+				"clf = SVC(C=5.0, kernel='linear')\n"+
+				"scoring = ['precision_macro', 'recall_macro']\n"+
+				"scores = cross_validate(clf, X, y, scoring=scoring, cv=6)\n" + 
+				"print(scores)\n"+
+				"mae_accuracy = mean_absolute_error(y_test, clf.predict(X_test))\n" + 
+				"print(\"mean_absolute_error = \" + str(mae_accuracy))\n" + 
+				"mse_accuracy = mean_squared_error(y_test, clf.predict(X_test))\n" + 
+				"print(\"mean_squared_error = \" + str(mse_accuracy))\n" + 
+				"print(df)\n"+
+				"";
+		
+		String result = compile(source);
+		execute(result,"test4");
+		assertThat(result, containsSameText(expected));
 	}
 	
-	private void execute(String program) throws IOException
+	private void execute(String program,String fileName) throws IOException
 	{
-		Files.write(program.getBytes(), new File("program.py"));
-		Process p = Runtime.getRuntime().exec("python program.py");
+		Files.write(program.getBytes(), new File(fileName+".py"));
+		Process p = Runtime.getRuntime().exec("python " +fileName+".py");
 		BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String line; 
 		while ((line = in.readLine()) != null) 
@@ -160,6 +186,5 @@ public class ScikitLearnCompilerTest {
 			// FIXME utiliser un logger
 			System.out.println(line);
 	    }
-		
 	}
 }

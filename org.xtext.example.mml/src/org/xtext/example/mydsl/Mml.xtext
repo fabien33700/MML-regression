@@ -124,5 +124,5 @@ TrainingTest:
 ;
 
 enum ValidationMetric:
-	MSE='mean_squared_error' | MAE='mean_absolute_error' | MAPE="mean_absolute_percentage_error"; 
+	MSE='mean_squared_error' | MAE='mean_absolute_error' | MAPE="mean_absolute_percentage_error" | ACC="accuracy";
 // TODO: can certainly be extended

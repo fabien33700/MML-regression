@@ -12,32 +12,36 @@ public interface ProgramStructure {
 	/**
 	 * Ecrit les imports nécessaires au programme cible
 	 */
-    void writeImports();
+	default void writeImports() {}
     
     /**
      * Ecrit le code de chargement des données
      */
-    void writeDataLoading();
+    default void writeDataLoading() {}
     
+    /**
+     * 
+     */
+    default void writeShuffling() {}    
     /**
      * Ecrit le code de sélections/exclusions des colonnes à traiter
      */
-    void writeColumnsExtract();
+    default void writeColumnsExtract() {}
     
     /**
      * Ecrit le code correspondant à la stratification des données
      */
-    void writeStratification();
+    default void writeStratification() {}
     
     /**
      * Ecrit le code qui appel l'algorithme de Machine Learning choisi
      */
-    void writeAlgorithmInvocation();
+    default void writeAlgorithmInvocation() {}
     
     /**
      * Ecrit le code qui appel les fonctions de calculs de métriques et qui retourne le résultat
      */
-    void writeResultPrinting();
+    default void writeResultPrinting() {}
     
     /**
      * Comportement de base pour l'exécution dans l'ordre de toutes les méthodes de générations de code
@@ -45,6 +49,7 @@ public interface ProgramStructure {
     default void writeProgram() {
 		writeImports();
 		writeDataLoading();
+		writeShuffling();
 		writeColumnsExtract();
 		writeStratification();
 		writeAlgorithmInvocation();

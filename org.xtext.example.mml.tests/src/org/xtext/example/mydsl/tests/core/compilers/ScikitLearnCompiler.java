@@ -37,7 +37,7 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 
 	@Override
 	public boolean supportAlgorithm(AlgorithmEnum algo) {
-		// Scikit supporte tous les algorithme du méta-modèle
+		// Scikit supporte tous les algorithmes du méta-modèle
 		return Arrays.asList(AlgorithmEnum.ALL).contains(algo);
 	}
 

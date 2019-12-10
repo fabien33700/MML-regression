@@ -60,7 +60,7 @@ public class MMLModelFacade {
 	}
 
 	/**
-	 * Enuméraiton pour les algorithmes
+	 * Enumération pour les algorithmes
 	 * @author Fabien
 	 *
 	 */

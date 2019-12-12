@@ -11,14 +11,14 @@ import org.xtext.example.mydsl.tests.model.MMLModelFacade.MetricEnum;
 
 public class TensorFlowCompiler extends AbstractMmlCompiler 
 {
-	protected TensorFlowCompiler(MMLModelFacade model) 
+	public TensorFlowCompiler(MMLModelFacade model) 
 	{
 		super(model);
 	}
 
 	@Override
 	public boolean targetFramework(FrameworkEnum framework) {
-		return framework==FrameworkEnum.TENSOR_FLOW;
+		return framework == FrameworkEnum.TENSOR_FLOW;
 	}
 
 	@Override

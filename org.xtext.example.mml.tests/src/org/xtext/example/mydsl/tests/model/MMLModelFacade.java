@@ -7,6 +7,7 @@ import static org.junit.platform.commons.util.StringUtils.isBlank;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -113,7 +114,8 @@ public class MMLModelFacade {
 	public static enum MetricEnum {
 		MSE(ValidationMetric.MSE), 
 		MAE(ValidationMetric.MAE), 
-		MAPE(ValidationMetric.MAPE);
+		MAPE(ValidationMetric.MAPE),
+		ACC(ValidationMetric.ACC);
 		
 		private final ValidationMetric validationMetric;
 		
@@ -320,6 +322,7 @@ public class MMLModelFacade {
 		public List<MetricEnum> getMetrics() {
 			return source.getMetric().stream()
 					.map(MetricEnum::forMetric)
+					.filter(Objects::nonNull)
 					.collect(Collectors.toList());
 		}
 	}

@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.xtext.example.mydsl.mml.MMLModel;
+import org.xtext.example.mydsl.tests.core.compilers.RCompiler;
 import org.xtext.example.mydsl.tests.core.compilers.ScikitLearnCompiler;
+import org.xtext.example.mydsl.tests.core.compilers.TensorFlowCompiler;
 import org.xtext.example.mydsl.tests.model.MMLModelFacade;
 
 /**
@@ -28,8 +30,9 @@ public class CompilerFactory {
 	 * Liste des implémentations de compilateurs disponibles
 	 */
 	private static final List<Class<? extends AbstractMmlCompiler>> availableTargetTypes = Arrays.asList(
-		ScikitLearnCompiler.class //,
-		// TODO Veuillez enregistrer la classe de votre compilateur ici
+		ScikitLearnCompiler.class,
+		RCompiler.class,
+		TensorFlowCompiler.class
 	);
 
 	/**

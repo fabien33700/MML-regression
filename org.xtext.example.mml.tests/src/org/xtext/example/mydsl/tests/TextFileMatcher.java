@@ -1,5 +1,6 @@
 package org.xtext.example.mydsl.tests;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -67,8 +68,8 @@ public class TextFileMatcher extends TypeSafeDiagnosingMatcher<String> {
 		}
 		
 		// On récupère une liste de lignes pour chacun des textes (séparateur de saut de ligne \n ou \r\n)
-		List<String> expectedLines = Arrays.asList(expectedText.split("\r?\n"));
-		List<String> actualLines = Arrays.asList(actualText.split("\r?\n"));
+		List<String> expectedLines = new ArrayList<>(Arrays.asList(expectedText.split("\r?\n")));
+		List<String> actualLines = new ArrayList<>(Arrays.asList(actualText.split("\r?\n")));
 		
 		// On retire les lignes vides
 		if (ignoreEmptyLines) {
@@ -77,14 +78,14 @@ public class TextFileMatcher extends TypeSafeDiagnosingMatcher<String> {
 		}
 		
 		// Comparaison du nombre de ligne
-		if (actualLines.size() != expectedLines.size()) {
-			description.appendText("Expected text should have <")
-				.appendValue(expectedLines.size())
-				.appendText("> lines but actual one has <")
-				.appendValue(actualLines.size())
-				.appendText("> lines");
-			return false;
-		}
+//		if (actualLines.size() != expectedLines.size()) {
+//			description.appendText("Expected text should have <")
+//				.appendValue(expectedLines.size())
+//				.appendText("> lines but actual one has <")
+//				.appendValue(actualLines.size())
+//				.appendText("> lines");
+//			return false;
+//		}
 		
 		// Récupération d'un itérateur pour les lignes de chaque texte,
 		// ce qui va nous permettre de parcourir les deux textes ligne par ligne simultanément

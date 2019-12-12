@@ -16,7 +16,7 @@ import org.xtext.example.mydsl.tests.model.MMLModelFacade.StratificationEnum;
  */
 public class RCompiler extends AbstractMmlCompiler {
 
-	protected RCompiler(MMLModelFacade model) {
+	public RCompiler(MMLModelFacade model) {
 		super(model);
 	}
 
@@ -32,7 +32,7 @@ public class RCompiler extends AbstractMmlCompiler {
 
 	@Override
 	public boolean supportMetric(MetricEnum metric) {
-		List<MetricEnum> supported = Arrays.asList(MetricEnum.MAE, MetricEnum.MAPE);
+		List<MetricEnum> supported = Arrays.asList(MetricEnum.MAE, MetricEnum.MAPE, MetricEnum.ACC);
 		return supported.contains(metric);
 	}
 

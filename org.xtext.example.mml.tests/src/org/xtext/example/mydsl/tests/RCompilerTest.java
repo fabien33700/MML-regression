@@ -76,6 +76,7 @@ public class RCompilerTest {
 				"print(paste('Accuracy for test', accuracy_Test))"; 
 
 		String result = compile(source);
+		LOGGER.info(result);
 		assertThat(result, containsSameText(expected));
 	}
 }

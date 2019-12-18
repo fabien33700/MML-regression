@@ -159,28 +159,36 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 		if (stratification == StratificationEnum.TRAINING_TEST) {
 			append("clf.fit(X_train, y_train)");
 		} else if (stratification == StratificationEnum.CROSS_VALIDATION) {
-			// L'appel de la cross validation dépend de l'objet de l'algorithme utilisé
-			append("scoring = ['precision_macro', 'recall_macro']");
-			append("scores = cross_validate(clf, X, y, scoring=scoring, cv=%d)",
+			//TODO définir le scoring en fonction des métriques
+			List<MetricEnum> metrics = model.getValidation().getMetrics();
+			append("scoring = ['neg_mean_absolute_error','neg_mean_squared_error']");
+			append("results = cross_validate(clf, X, y, cv=%d,scoring=scoring)",
 					model.getValidation().getValue());
-			append("print(scores)");
 		}
 	}
 
 	@Override
 	public void writeResultPrinting() {
 		List<MetricEnum> metrics = model.getValidation().getMetrics();
+		StratificationEnum stratification = model.getValidation().getStratificationMethod();
 
-		//FIXME la méthode est différente pour le cross validation
-		if (metrics.contains(MetricEnum.MAE)) {
-			append("mae_accuracy = mean_absolute_error(y_test, clf.predict(X_test))");
-			append("print(\"mean_absolute_error = \" + str(mae_accuracy))");
-		}
+		if(stratification!=StratificationEnum.CROSS_VALIDATION)
+		{
+			if (metrics.contains(MetricEnum.MAE)) {
+				append("mae_accuracy = mean_absolute_error(y_test, clf.predict(X_test))");
+				append("print(\"mean_absolute_error = \" + str(mae_accuracy))");
+			}
 
-		if (metrics.contains(MetricEnum.MSE)) {
-			append("mse_accuracy = mean_squared_error(y_test, clf.predict(X_test))");
-			append("print(\"mean_squared_error = \" + str(mse_accuracy))");
+			if (metrics.contains(MetricEnum.MSE)) {
+				append("mse_accuracy = mean_squared_error(y_test, clf.predict(X_test))");
+				append("print(\"mean_squared_error = \" + str(mse_accuracy))");
+			}
 		}
+		else
+		{
+			append("print(results)");
+		}
+		
 
 		append("print(df)");
 	}

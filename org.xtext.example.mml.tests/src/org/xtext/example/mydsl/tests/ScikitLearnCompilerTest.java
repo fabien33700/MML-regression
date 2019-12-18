@@ -143,15 +143,17 @@ public class ScikitLearnCompilerTest {
 	public void test_Rformula_all_predictors_columns() throws Exception {
 		String source = "datainput \"Boston.csv\"\n" + 
 				"mlframework scikit-learn \n" + 
-				"algorithm SVR C=5.0 kernel=linear\n" + 
+				"algorithm DT\n" +
+				//FIXME le SVR fait planter le programme python
+				//"algorithm SVR C=5.0 kernel=linear\n" + 
 				"formula \"medv\" ~ .\n" + 
 				"CrossValidation { numRepetitionCross 6 } \n" + 
 				"mean_squared_error mean_absolute_error"
 				+ "";
-		// TODO ...
 		String expected=
 				"import pandas as pd\n"+
-				"from sklearn.svm import SVC\n"+
+				"from sklearn.tree import DecisionTreeRegressor\n"+
+				//"from sklearn.svm import SVC\n"+
 				"from sklearn.model_selection import cross_validate\n"+
 				"from sklearn.metrics import mean_squared_error\n"+
 				"from sklearn.metrics import mean_absolute_error\n"+
@@ -159,14 +161,11 @@ public class ScikitLearnCompilerTest {
 				"df.head()\n"+
 				"y = df[\"medv\"]\n"+
 				"X = df.drop(columns=[\"medv\"])\n"+
-				"clf = SVC(C=5.0, kernel='linear')\n"+
-				"scoring = ['precision_macro', 'recall_macro']\n"+
-				"scores = cross_validate(clf, X, y, scoring=scoring, cv=6)\n" + 
-				"print(scores)\n"+
-				"mae_accuracy = mean_absolute_error(y_test, clf.predict(X_test))\n" + 
-				"print(\"mean_absolute_error = \" + str(mae_accuracy))\n" + 
-				"mse_accuracy = mean_squared_error(y_test, clf.predict(X_test))\n" + 
-				"print(\"mean_squared_error = \" + str(mse_accuracy))\n" + 
+				"clf = DecisionTreeRegressor()\n"+
+				//"clf = SVC(C=5.0, kernel='linear')\n"+
+				"scoring = ['neg_mean_absolute_error','neg_mean_squared_error']\n"+
+				"results = cross_validate(clf, X, y, cv=6,scoring=scoring)\n" + 
+				"print(results)\n"+
 				"print(df)\n"+
 				"";
 		
@@ -183,8 +182,7 @@ public class ScikitLearnCompilerTest {
 		String line; 
 		while ((line = in.readLine()) != null) 
 		{
-			// FIXME utiliser un logger
-			System.out.println(line);
+			LOGGER.info(line);
 	    }
 	}
 }

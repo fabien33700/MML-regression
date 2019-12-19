@@ -3,15 +3,7 @@ package org.xtext.example.mydsl.tests;
 import static org.junit.Assert.assertThat;
 import static org.xtext.example.mydsl.tests.TextFileMatcher.containsSameText;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-
-import com.google.common.io.Files;
 
 
 public class ScikitLearnCompilerTest extends AbstractCompilerTest {

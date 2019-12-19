@@ -72,7 +72,7 @@ public class ScikitLearnCompilerTest {
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
-		execute(result,"test1");
+		//execute(result,"test1");
 	}
 	
 	@Test
@@ -104,7 +104,7 @@ public class ScikitLearnCompilerTest {
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
-		execute(result,"test2");
+		//execute(result,"test2");
 	}
 	
 	@Test
@@ -136,7 +136,7 @@ public class ScikitLearnCompilerTest {
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
-		execute(result,"test3");
+		//execute(result,"test3");
 	}
 	
 	@Test
@@ -171,7 +171,7 @@ public class ScikitLearnCompilerTest {
 				"";
 		
 		String result = compile(source);
-		execute(result,"test4");
+		//execute(result,"test4");
 		assertThat(result, containsSameText(expected));
 	}
 	

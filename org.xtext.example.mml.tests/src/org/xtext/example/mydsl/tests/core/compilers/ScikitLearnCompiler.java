@@ -61,7 +61,7 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 		} else if (algo == AlgorithmEnum.SVR) {
 			append("from sklearn.svm import SVC");
 		} else if (algo == AlgorithmEnum.GTB) {
-			append("from sklearn.ensemble import GradientBoostingClassifier");
+			append("from sklearn.ensemble import GradientBoostingRegressor");
 		} else if (algo == AlgorithmEnum.RandomForest) {
 			append("from sklearn.ensemble import RandomForestRegressor");
 		} else if (algo == AlgorithmEnum.SGD) {
@@ -150,7 +150,7 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 			
 			append("clf = SVC(%s)", mapToString(", ", "=", params));
 		} else if (algo == AlgorithmEnum.GTB) {
-			append("clf = GradientBoostingClassifier()");
+			append("clf = GradientBoostingRegressor()");
 		} else if (algo == AlgorithmEnum.RandomForest) {
 			append("clf = RandomForestRegressor()");
 		} else if (algo == AlgorithmEnum.SGD) {
@@ -161,10 +161,25 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 		} else if (stratification == StratificationEnum.CROSS_VALIDATION) {
 			//TODO définir le scoring en fonction des métriques
 			List<MetricEnum> metrics = model.getValidation().getMetrics();
-			append("scoring = ['neg_mean_absolute_error','neg_mean_squared_error']");
+			append(getScoringFromMetrics(metrics));
+			//append("scoring = ['neg_mean_absolute_error','neg_mean_squared_error']");
 			append("results = cross_validate(clf, X, y, cv=%d,scoring=scoring)",
 					model.getValidation().getValue());
 		}
+	}
+	
+	//FIXME Méthode moche mais qui marche
+	private String getScoringFromMetrics(List<MetricEnum> metrics){
+		String scoring ="scoring = [";
+		if(metrics.contains(MetricEnum.MAE)){
+			scoring+=("'neg_mean_absolute_error',");
+		}
+		if(metrics.contains(MetricEnum.MSE)){
+			scoring+=("'neg_mean_squared_error',");
+		}
+		scoring = scoring.substring(0, scoring.length() - 1);//on enlève la dernière virgule
+		scoring+=("]");
+		return scoring;
 	}
 
 	@Override
@@ -186,11 +201,16 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 		}
 		else
 		{
-			append("print(results)");
+			if (metrics.contains(MetricEnum.MAE)) {
+				append("print('mean_absolute_errors = '+str(results['test_neg_mean_absolute_error']))");
+			}
+			if (metrics.contains(MetricEnum.MAE)) {
+				append("print('mean_squared_errors = '+str(results['test_neg_mean_squared_error']))");
+			}
 		}
 		
 
-		append("print(df)");
+		//append("print(df)");
 	}
 
 }

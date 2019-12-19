@@ -21,7 +21,6 @@ import org.xtext.example.mydsl.tests.core.CompilerFactory;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
 
-// TODO Test manquant : CrossValidation
 @ExtendWith(InjectionExtension.class)
 @InjectWith(MmlInjectorProvider.class)
 public class ScikitLearnCompilerTest {
@@ -46,14 +45,16 @@ public class ScikitLearnCompilerTest {
 
 	@Test
 	public void test_NoRformula() throws Exception {
-		String source = "datainput \"Boston.csv\" separator ,\n" + 
+		String source = 
+				"datainput \"Boston.csv\" separator ,\n" + 
 				"mlframework scikit-learn\n"+ 
 				"algorithm DT\n" + 
 				"TrainingTest { percentageTraining 70 }\n" + 
 				"mean_absolute_error\n" + 
 				"";
 		
-		String expected = "import pandas as pd\n" + 
+		String expected = 
+				"import pandas as pd\n" + 
 				"from sklearn.tree import DecisionTreeRegressor\n" + 
 				"from sklearn.model_selection import train_test_split\n" + 
 				"from sklearn.metrics import mean_absolute_error\n" + 
@@ -77,7 +78,8 @@ public class ScikitLearnCompilerTest {
 	
 	@Test
 	public void test_Rformula_predictive_columns() throws Exception {
-		String source = "datainput \"Boston.csv\" separator ,\n" + 
+		String source = 
+				"datainput \"Boston.csv\" separator ,\n" + 
 				"mlframework scikit-learn\n"+ 
 				"algorithm DT\n" + 
 				"formula \"medv\" ~\n" +
@@ -85,7 +87,8 @@ public class ScikitLearnCompilerTest {
 				"mean_absolute_error\n" + 
 				"";
 		
-		String expected = "import pandas as pd\n" + 
+		String expected = 
+				"import pandas as pd\n" + 
 				"from sklearn.tree import DecisionTreeRegressor\n" + 
 				"from sklearn.model_selection import train_test_split\n" + 
 				"from sklearn.metrics import mean_absolute_error\n" + 
@@ -109,7 +112,8 @@ public class ScikitLearnCompilerTest {
 	
 	@Test
 	public void test_Rformula_predictors_columns() throws Exception {
-		String source = "datainput \"Boston.csv\" separator ,\n" + 
+		String source = 
+				"datainput \"Boston.csv\" separator ,\n" + 
 				"mlframework scikit-learn\n"+ 
 				"algorithm DT\n" + 
 				"formula \"medv\" ~ \"crim\" + \"zn\" + \"chas\" + \"rm\"\n" +
@@ -117,7 +121,8 @@ public class ScikitLearnCompilerTest {
 				"mean_absolute_error\n" + 
 				"";
 		
-		String expected = "import pandas as pd\n" + 
+		String expected = 
+				"import pandas as pd\n" + 
 				"from sklearn.tree import DecisionTreeRegressor\n" + 
 				"from sklearn.model_selection import train_test_split\n" + 
 				"from sklearn.metrics import mean_absolute_error\n" + 
@@ -140,12 +145,10 @@ public class ScikitLearnCompilerTest {
 	}
 	
 	@Test
-	public void test_Rformula_all_predictors_columns() throws Exception {
+	public void test_DescisionTree() throws Exception {
 		String source = "datainput \"Boston.csv\"\n" + 
 				"mlframework scikit-learn \n" + 
 				"algorithm DT\n" +
-				//FIXME le SVR fait planter le programme python
-				//"algorithm SVR C=5.0 kernel=linear\n" + 
 				"formula \"medv\" ~ .\n" + 
 				"CrossValidation { numRepetitionCross 6 } \n" + 
 				"mean_squared_error mean_absolute_error"
@@ -153,7 +156,6 @@ public class ScikitLearnCompilerTest {
 		String expected=
 				"import pandas as pd\n"+
 				"from sklearn.tree import DecisionTreeRegressor\n"+
-				//"from sklearn.svm import SVC\n"+
 				"from sklearn.model_selection import cross_validate\n"+
 				"from sklearn.metrics import mean_squared_error\n"+
 				"from sklearn.metrics import mean_absolute_error\n"+
@@ -162,17 +164,71 @@ public class ScikitLearnCompilerTest {
 				"y = df[\"medv\"]\n"+
 				"X = df.drop(columns=[\"medv\"])\n"+
 				"clf = DecisionTreeRegressor()\n"+
-				//"clf = SVC(C=5.0, kernel='linear')\n"+
 				"scoring = ['neg_mean_absolute_error','neg_mean_squared_error']\n"+
 				"results = cross_validate(clf, X, y, cv=6,scoring=scoring)\n" + 
-				"print(results)\n"+
+				"print('mean_absolute_errors = '+str(results['test_neg_mean_absolute_error']))\n"+
+				"print('mean_squared_errors = '+str(results['test_neg_mean_squared_error']))\n"+
 				"print(df)\n"+
 				"";
 		
 		String result = compile(source);
-		execute(result,"test4");
+		execute(result,"DescisionTree");
 		assertThat(result, containsSameText(expected));
 	}
+	
+	@Test
+	public void test_GradientBoosting() throws Exception
+	{
+		String source = generateSourceFromAlgorithm("GTB");
+		String expected =
+				"import pandas as pd\n"+
+				"from sklearn.ensemble import GradientBoostingRegressor\n"+
+				"from sklearn.model_selection import cross_validate\n"+
+				"from sklearn.metrics import mean_squared_error\n"+
+				"from sklearn.metrics import mean_absolute_error\n"+
+				"df = pd.read_csv('Boston.csv', sep=',')\n"+
+				"df.head()\n"+
+				"y = df[\"medv\"]\n"+
+				"X = df.drop(columns=[\"medv\"])\n"+
+				"clf = GradientBoostingRegressor()\n"+
+				"scoring = ['neg_mean_absolute_error','neg_mean_squared_error']\n"+
+				"results = cross_validate(clf, X, y, cv=6,scoring=scoring)\n" + 
+				"print('mean_absolute_errors = '+str(results['test_neg_mean_absolute_error']))\n"+
+				"print('mean_squared_errors = '+str(results['test_neg_mean_squared_error']))\n"+
+				"print(df)\n"+
+				"";
+		
+		String result = compile(source);
+		execute(result,"GradientBoosting");
+		assertThat(result, containsSameText(expected));		
+	}
+	
+	@Test
+	public void test_RandomForest() throws Exception
+	{
+		String source = generateSourceFromAlgorithm("RandomForest");
+		String expected = 
+				"import pandas as pd\n"+
+				"from sklearn.ensemble import RandomForestRegressor\n"+
+				"from sklearn.model_selection import cross_validate\n"+
+				"from sklearn.metrics import mean_squared_error\n"+
+				"from sklearn.metrics import mean_absolute_error\n"+
+				"df = pd.read_csv('Boston.csv', sep=',')\n"+
+				"df.head()\n"+
+				"y = df[\"medv\"]\n"+
+				"X = df.drop(columns=[\"medv\"])\n"+
+				"clf = RandomForestRegressor()\n"+
+				"scoring = ['neg_mean_absolute_error','neg_mean_squared_error']\n"+
+				"results = cross_validate(clf, X, y, cv=6,scoring=scoring)\n" + 
+				"print('mean_absolute_errors = '+str(results['test_neg_mean_absolute_error']))\n"+
+				"print('mean_squared_errors = '+str(results['test_neg_mean_squared_error']))\n"+
+				"print(df)\n"+
+				"";
+		String result = compile(source);
+		execute(result,"RandomForest");
+		assertThat(result, containsSameText(expected));		
+	}
+	
 	
 	private void execute(String program,String fileName) throws IOException
 	{
@@ -184,5 +240,17 @@ public class ScikitLearnCompilerTest {
 		{
 			LOGGER.info(line);
 	    }
+	}
+	
+	private String generateSourceFromAlgorithm(String algorithm)
+	{
+		String source="datainput \"Boston.csv\"\n" + 
+				"mlframework scikit-learn \n" + 
+				"algorithm "+algorithm+"\n" +
+				"formula \"medv\" ~ .\n" + 
+				"CrossValidation { numRepetitionCross 6 } \n" + 
+				"mean_squared_error mean_absolute_error"
+				+ "";
+		return source;
 	}
 }

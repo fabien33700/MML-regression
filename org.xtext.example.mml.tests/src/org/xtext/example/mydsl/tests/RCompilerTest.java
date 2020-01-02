@@ -46,18 +46,20 @@ public class RCompilerTest {
 				"library(rpart)\n" + 
 				"library(rpart.plot)\n" + 
 				"library(dplyr)\n" + 
+				
 				"set.seed(678)\n" + 
-				"path <- 'https://raw.githubusercontent.com/guru99-edu/R-Programming/master/titanic_data.csv'\n" + 
+				"path <- './titanic.csv'\n" + 
 				"titanic <-read.csv(path)\n" + 
+				
 				"shuffle_index <- sample(1:nrow(titanic))\n" + 
 				"titanic <- titanic[shuffle_index, ]\n" + 
+				
 				"clean_titanic <- titanic % > %\n" + 
 				"select(-c(home.dest, cabin, name, X, ticket)) % > % \n" + 
 				"	mutate(pclass = factor(pclass, levels = c(1, 2, 3), labels = c('Upper', 'Middle', 'Lower')),\n" + 
 				"	survived = factor(survived, levels = c(0, 1), labels = c('No', 'Yes'))) % > %\n" + 
-				"na.omit()\n" + 
-				"glimpse(clean_titanic)\n" + 
-				"create_train_test <- function(data, size = 0.8, train = TRUE) {\n" + 
+				"na.omit()\n" +  
+				"create_train_test <- function(data, size = 0.7, train = TRUE) {\n" + 
 				"    n_row = nrow(data)\n" + 
 				"    total_row = size * n_row\n" + 
 				"    train_sample <- 1: total_row\n" + 
@@ -67,16 +69,17 @@ public class RCompilerTest {
 				"        return (data[-train_sample, ])\n" + 
 				"    }\n" + 
 				"}\n" + 
-				"data_train <- create_train_test(titanic, 0.8, train = TRUE)\n" + 
-				"data_test <- create_train_test(titanic, 0.8, train = FALSE)\n" + 
+				"data_train <- create_train_test(titanic, 0.7, train = TRUE)\n" + 
+				"data_test <- create_train_test(titanic, 0.7, train = FALSE)\n" + 
 				"fit <- rpart(survived~., data = data_train, method = 'class')\n" + 
 				"predict_unseen <-predict(fit, data_test, type = 'class')\n" + 
 				"table_mat <- table(data_test$survived, predict_unseen)\n" + 
 				"accuracy_Test <- sum(diag(table_mat)) / sum(table_mat)\n" + 
-				"print(paste('Accuracy for test', accuracy_Test))"; 
+				"print(paste('Accuracy for test', accuracy_Test))";
 
 		String result = compile(source);
-		LOGGER.info(result);
+		LOGGER.info("Obtained: ---------------------\n" + result+ "\n\n");
+		LOGGER.info("Expected: ---------------------\n" + expected);
 		assertThat(result, containsSameText(expected));
 	}
 }

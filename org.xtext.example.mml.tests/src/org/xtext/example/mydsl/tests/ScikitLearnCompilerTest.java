@@ -56,6 +56,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
+
 	}
 	
 	@Test

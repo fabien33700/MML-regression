@@ -1,7 +1,6 @@
 /.m2/
 bin/
 build/
-*.py
 .gradle/
 *._trace
 *.xtendbin

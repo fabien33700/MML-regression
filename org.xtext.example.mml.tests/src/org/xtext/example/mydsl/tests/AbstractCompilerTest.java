@@ -46,7 +46,7 @@ public abstract class AbstractCompilerTest {
 
 	protected String getExpectedProgram(String expectedProgramFilename) {
 		try {
-			File file = new File("resources/scikit/" + expectedProgramFilename);
+			File file = new File("resources/" + expectedProgramFilename);
 			FileReader fr = new FileReader(file);
 
 			try (BufferedReader br = new BufferedReader(fr)) {

@@ -18,7 +18,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 				"mean_absolute_error\n" + 
 				"";
 		
-		String expected = getExpectedProgram("test1.py");
+		String expected = getExpectedProgram("scikit/test1.py");
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
@@ -35,7 +35,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 				"mean_absolute_error\n" + 
 				"";
 		
-		String expected = getExpectedProgram("test2.py");
+		String expected = getExpectedProgram("scikit/test2.py");
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
@@ -52,7 +52,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 				"mean_absolute_error\n" + 
 				"";
 		
-		String expected = getExpectedProgram("test3.py");
+		String expected = getExpectedProgram("scikit/test3.py");
 
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));
@@ -62,7 +62,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 	@Test
 	public void test_DecisionTree() throws Exception {
 		String source = generateSourceFromAlgorithm("Boston.csv", "DT");
-		String expected = getExpectedProgram("DecisionTree.py");
+		String expected = getExpectedProgram("scikit/DecisionTree.py");
 		
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));		
@@ -72,7 +72,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 	public void test_GradientBoosting() throws Exception
 	{
 		String source = generateSourceFromAlgorithm("Boston.csv", "GTB");
-		String expected = getExpectedProgram("GradientBoosting.py");
+		String expected = getExpectedProgram("scikit/GradientBoosting.py");
 		
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));		
@@ -82,7 +82,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 	public void test_RandomForest() throws Exception
 	{
 		String source = generateSourceFromAlgorithm("Boston.csv", "RandomForest");
-		String expected = getExpectedProgram("RandomForest.py");
+		String expected = getExpectedProgram("scikit/RandomForest.py");
 		
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));		

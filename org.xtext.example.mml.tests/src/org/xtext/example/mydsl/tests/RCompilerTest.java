@@ -14,7 +14,6 @@ public class RCompilerTest extends AbstractCompilerTest {
 				"TrainingTest { percentageTraining 70 }\n" + 
 				"accuracy\n" + 
 				"";
-	
 		String expected = getExpectedProgram("rlang/DecisionTree.r");
 
 		String result = compile(source);

@@ -20,10 +20,6 @@ public interface ProgramStructure {
     default void writeDataLoading() {}
     
     /**
-     * 
-     */
-    default void writeShuffling() {}    
-    /**
      * Ecrit le code de sélections/exclusions des colonnes à traiter
      */
     default void writeColumnsExtract() {}
@@ -49,7 +45,6 @@ public interface ProgramStructure {
     default void writeProgram() {
 		writeImports();
 		writeDataLoading();
-		writeShuffling();
 		writeColumnsExtract();
 		writeStratification();
 		writeAlgorithmInvocation();

@@ -11,7 +11,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 	@Test
 	public void test_NoRformula() throws Exception {
 		String source = 
-				"datainput \"boston.csv\" separator ,\n" + 
+				"datainput \"Boston.csv\" separator ,\n" + 
 				"mlframework scikit-learn\n"+ 
 				"algorithm DT\n" + 
 				"TrainingTest { percentageTraining 70 }\n" + 
@@ -27,7 +27,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 	@Test
 	public void test_Rformula_predictive_columns() throws Exception {
 		String source = 
-				"datainput \"boston.csv\" separator ,\n" + 
+				"datainput \"Boston.csv\" separator ,\n" + 
 				"mlframework scikit-learn\n"+ 
 				"algorithm DT\n" + 
 				"formula \"medv\" ~\n" +
@@ -44,7 +44,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 	@Test
 	public void test_Rformula_predictors_columns() throws Exception {
 		String source = 
-				"datainput \"boston.csv\" separator ,\n" + 
+				"datainput \"Boston.csv\" separator ,\n" + 
 				"mlframework scikit-learn\n"+ 
 				"algorithm DT\n" + 
 				"formula \"medv\" ~ \"crim\" + \"zn\" + \"chas\" + \"rm\"\n" +
@@ -61,7 +61,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 	
 	@Test
 	public void test_DecisionTree() throws Exception {
-		String source = generateSourceFromAlgorithm("boston.csv", "DT");
+		String source = generateSourceFromAlgorithm("Boston.csv", "DT");
 		String expected = getExpectedProgram("DecisionTree.py");
 		
 		String result = compile(source);
@@ -71,7 +71,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 	@Test
 	public void test_GradientBoosting() throws Exception
 	{
-		String source = generateSourceFromAlgorithm("boston.csv", "GTB");
+		String source = generateSourceFromAlgorithm("Boston.csv", "GTB");
 		String expected = getExpectedProgram("GradientBoosting.py");
 		
 		String result = compile(source);
@@ -81,7 +81,7 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 	@Test
 	public void test_RandomForest() throws Exception
 	{
-		String source = generateSourceFromAlgorithm("boston.csv", "RandomForest");
+		String source = generateSourceFromAlgorithm("Boston.csv", "RandomForest");
 		String expected = getExpectedProgram("RandomForest.py");
 		
 		String result = compile(source);

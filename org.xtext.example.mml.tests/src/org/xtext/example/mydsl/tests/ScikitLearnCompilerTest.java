@@ -87,8 +87,64 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 		String result = compile(source);
 		assertThat(result, containsSameText(expected));		
 	}
-
 	
+	//Test de performances d'algorithme => génération de code
+	
+	@Test
+	public void test_DecisionTree_boston() throws Exception
+	{
+		String source =  generateSourceForComparativeTest("Boston.csv","DecisionTree");
+		String expected = getExpectedProgram("scikit/DecisionTree_Boston.py");
+		String result = compile(source);
+		assertThat(result, containsSameText(expected));	
+	}
+	
+	@Test
+	public void test_GradientBoosting_boston() throws Exception
+	{
+		String source =  generateSourceForComparativeTest("Boston.csv","GTB");
+		String expected = getExpectedProgram("scikit/GradientBoosting_Boston.py");
+		String result = compile(source);
+		assertThat(result, containsSameText(expected));	
+	}
+	
+	@Test 
+	public void test_RandomForest_boston() throws Exception
+	{
+		String source =  generateSourceForComparativeTest("Boston.csv","RandomForest");
+		String expected = getExpectedProgram("scikit/RandomForest_Boston.py");
+		String result = compile(source);
+		assertThat(result, containsSameText(expected));	
+	}
+	
+	@Test
+	public void test_DecisionTree_titanic() throws Exception
+	{
+		String source =  generateSourceForComparativeTest("titanic.csv","DecisionTree");
+		String expected = getExpectedProgram("scikit/DecisionTree_Titanic.py");
+		String result = compile(source);
+		assertThat(result, containsSameText(expected));	
+	}
+	
+	@Test
+	public void test_GradientBoosting_titanic() throws Exception
+	{
+		String source =  generateSourceForComparativeTest("titanic.csv","GTB");
+		String expected = getExpectedProgram("scikit/GradientBoosting_Titanic.py");
+		String result = compile(source);
+		assertThat(result, containsSameText(expected));	
+	}
+	
+	@Test
+	public void test_RandomForest_titanic() throws Exception
+	{
+		String source =  generateSourceForComparativeTest("titanic.csv","RandomForest");
+		String expected = getExpectedProgram("scikit/RandomForest_Titanic.py");
+		String result = compile(source);
+		assertThat(result, containsSameText(expected));	
+	}
+	
+	//Bout de code souvent réécris
 	private String generateSourceFromAlgorithm(String inputFilename, String algorithm)
 	{
 		String source="datainput \"" + inputFilename + "\"\n" + 
@@ -98,6 +154,25 @@ public class ScikitLearnCompilerTest extends AbstractCompilerTest {
 				"CrossValidation { numRepetitionCross 6 } \n" + 
 				"mean_squared_error mean_absolute_error"
 				+ "";
+		return source;
+	}
+	
+	private String generateSourceForComparativeTest(String inputFilename, String algorithm)
+	{
+		String source="datainput \"" + inputFilename + "\"\n" + 
+				"mlframework scikit-learn \n" + 
+				"algorithm " + algorithm + "\n" ;
+		
+		if(inputFilename=="titanic.csv")
+		{
+			source+="formula \"survived\" ~ \"pclass\" + \"age\" + \"sibsp\" + \"parch\" + \"fare\"\n";
+		}
+		else if (inputFilename=="Boston.csv")
+		{
+			source+="formula \"medv\" ~ .\n";
+		}
+		source +="TrainingTest { percentageTraining 70 } \n";
+		source +="mean_absolute_percentage_error";
 		return source;
 	}
 }

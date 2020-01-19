@@ -44,7 +44,7 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 	@Override
 	public boolean supportMetric(MetricEnum metric) {
 		// Scikit ne propose pas directement de fonction pour MAPE
-		List<MetricEnum> supported = Arrays.asList(MetricEnum.MAE, MetricEnum.MSE);
+		List<MetricEnum> supported = Arrays.asList(MetricEnum.MAE, MetricEnum.MSE,MetricEnum.MAPE);
 		return supported.contains(metric);
 	}
 
@@ -78,7 +78,7 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 		if (metrics.contains(MetricEnum.MSE)) {
 			append("from sklearn.metrics import mean_squared_error");
 		}
-		if (metrics.contains(MetricEnum.MAE)) {
+		if (metrics.contains(MetricEnum.MAE)||metrics.contains(MetricEnum.MAPE)) {
 			append("from sklearn.metrics import mean_absolute_error");
 		}
 
@@ -96,6 +96,12 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 	@Override
 	public void writeColumnsExtract() {
 		append("df.head()");
+		//FIXME très moche mais pas le temps de faire autrement => ajouter valeurs à enlever dans le méta modèle
+		if(model.getDataInput().getFileLocation().equals("titanic.csv"))
+		{
+			append("df=df[df != \"?\"]");
+			append("df=df.dropna()");
+		}
 
 		RFormulaFacade formula = model.getFormula();
 		if (formula.getLiteralPredictive().isPresent()) {
@@ -159,10 +165,8 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 		if (stratification == StratificationEnum.TRAINING_TEST) {
 			append("clf.fit(X_train, y_train)");
 		} else if (stratification == StratificationEnum.CROSS_VALIDATION) {
-			//TODO définir le scoring en fonction des métriques
 			List<MetricEnum> metrics = model.getValidation().getMetrics();
 			append(getScoringFromMetrics(metrics));
-			//append("scoring = ['neg_mean_absolute_error','neg_mean_squared_error']");
 			append("results = cross_validate(clf, X, y, cv=%d,scoring=scoring)",
 					model.getValidation().getValue());
 		}
@@ -171,7 +175,7 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 	//FIXME Méthode moche mais qui marche
 	private String getScoringFromMetrics(List<MetricEnum> metrics){
 		String scoring ="scoring = [";
-		if(metrics.contains(MetricEnum.MAE)){
+		if(metrics.contains(MetricEnum.MAE)||metrics.contains(MetricEnum.MAPE)){
 			scoring+=("'neg_mean_absolute_error',");
 		}
 		if(metrics.contains(MetricEnum.MSE)){
@@ -198,19 +202,28 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 				append("mse_accuracy = mean_squared_error(y_test, clf.predict(X_test))");
 				append("print(\"mean_squared_error = \" + str(mse_accuracy))");
 			}
+			if (metrics.contains(MetricEnum.MAPE)) 
+			{
+				RFormulaFacade formula = model.getFormula();
+				if (formula.getLiteralPredictive().isPresent()) {
+					append("max_value = df.max(axis = 0)[%s]", formula.getLiteralPredictive().get());
+				} else {
+					// Par défaut, on sélectionne la dernière colonne
+					append("max_value = df.max(axis = 0)[:,-1]");
+				}
+				append("mape_accuracy = mean_absolute_error(y_test, clf.predict(X_test))/max_value");
+				append("print(\"mean_absolute_percentage_error = \" + str(mape_accuracy))");
+			}
 		}
 		else
 		{
 			if (metrics.contains(MetricEnum.MAE)) {
 				append("print('mean_absolute_errors = '+str(results['test_neg_mean_absolute_error']))");
 			}
-			if (metrics.contains(MetricEnum.MAE)) {
+			if (metrics.contains(MetricEnum.MSE)) {
 				append("print('mean_squared_errors = '+str(results['test_neg_mean_squared_error']))");
 			}
 		}
-		
-
-		//append("print(df)");
 	}
 
 }

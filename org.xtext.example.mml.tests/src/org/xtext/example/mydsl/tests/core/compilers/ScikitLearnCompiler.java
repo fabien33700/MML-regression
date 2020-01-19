@@ -2,6 +2,7 @@ package org.xtext.example.mydsl.tests.core.compilers;
 
 import static java.lang.String.valueOf;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,6 @@ import org.xtext.example.mydsl.tests.model.MMLModelFacade.StratificationEnum;
  * @author Fabien
  *
  */
-// TODO Comprendre le fonctionnement de cross validate avec les algorithmes
 public class ScikitLearnCompiler extends AbstractMmlCompiler {
 
 	public ScikitLearnCompiler(MMLModelFacade model) {
@@ -168,18 +168,17 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 		}
 	}
 	
-	//FIXME Méthode moche mais qui marche
 	private String getScoringFromMetrics(List<MetricEnum> metrics){
-		String scoring ="scoring = [";
+		List<String> scorings = new ArrayList<>();
+		
 		if(metrics.contains(MetricEnum.MAE)){
-			scoring+=("'neg_mean_absolute_error',");
+			scorings.add("'neg_mean_absolute_error'");
 		}
 		if(metrics.contains(MetricEnum.MSE)){
-			scoring+=("'neg_mean_squared_error',");
+			scorings.add("'neg_mean_squared_error'");
 		}
-		scoring = scoring.substring(0, scoring.length() - 1);//on enlève la dernière virgule
-		scoring+=("]");
-		return scoring;
+		
+		return "scoring = [" + String.join(", ", scorings) + "]";
 	}
 
 	@Override
@@ -208,9 +207,6 @@ public class ScikitLearnCompiler extends AbstractMmlCompiler {
 				append("print('mean_squared_errors = '+str(results['test_neg_mean_squared_error']))");
 			}
 		}
-		
-
-		//append("print(df)");
 	}
 
 }

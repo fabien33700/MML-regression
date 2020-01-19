@@ -9,7 +9,6 @@ import org.xtext.example.mydsl.tests.model.MMLModelFacade.AlgorithmEnum;
 import org.xtext.example.mydsl.tests.model.MMLModelFacade.DataInputFacade;
 import org.xtext.example.mydsl.tests.model.MMLModelFacade.FrameworkEnum;
 import org.xtext.example.mydsl.tests.model.MMLModelFacade.MetricEnum;
-import org.xtext.example.mydsl.tests.model.MMLModelFacade.StratificationEnum;
 
 /**
  * Implémentation du compilateur pour la cible R
@@ -40,8 +39,8 @@ public class RCompiler extends AbstractMmlCompiler {
 	public void writeImports() {
 		
 		AlgorithmEnum algo = model.getTargetInfo().getAlgorithm();
-		List<MetricEnum> metrics = model.getValidation().getMetrics();
-		StratificationEnum stratification = model.getValidation().getStratificationMethod();
+//		List<MetricEnum> metrics = model.getValidation().getMetrics();
+//		StratificationEnum stratification = model.getValidation().getStratificationMethod();
 		if (algo == AlgorithmEnum.DT) {
 			append("library(caret)\n"
 					+ "library(e1071)\n"

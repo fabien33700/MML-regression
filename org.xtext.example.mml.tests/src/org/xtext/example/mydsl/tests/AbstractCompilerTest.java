@@ -44,6 +44,11 @@ public abstract class AbstractCompilerTest {
 		return compiler.printCode();
 	}
 
+	/**
+	 * Récupère le code source d'un programme depuis les ressources du projet.
+	 * @param expectedProgramFilename Le chemin du programme
+	 * @return Le code source, ou null si non trouvé
+	 */
 	protected String getExpectedProgram(String expectedProgramFilename) {
 		try {
 			File file = new File("resources/" + expectedProgramFilename);
@@ -64,6 +69,13 @@ public abstract class AbstractCompilerTest {
 		}
 	}
 
+	/* FIXME Ce code n'est pas portable et uniquement fait pour Python. 
+	   Il est mis de côté pour l'instant. */
+	/**
+	 * Exécute le programme Python à partir du nom de fichier
+	 * @param programFileName Le nom du programme
+	 */
+	@SuppressWarnings("unused")
 	private void executeProgram(String programFileName) {
 		try {
 			StringBuilder output = new StringBuilder();

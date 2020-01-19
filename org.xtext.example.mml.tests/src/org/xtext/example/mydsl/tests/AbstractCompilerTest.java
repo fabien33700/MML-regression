@@ -1,8 +1,5 @@
 package org.xtext.example.mydsl.tests;
 
-import static org.junit.Assert.assertThat;
-import static org.xtext.example.mydsl.tests.TextFileMatcher.containsSameText;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -18,7 +15,6 @@ import org.xtext.example.mydsl.mml.MMLModel;
 import org.xtext.example.mydsl.tests.core.AbstractMmlCompiler;
 import org.xtext.example.mydsl.tests.core.CompilerFactory;
 
-import com.google.common.io.Files;
 import com.google.inject.Inject;
 
 @ExtendWith(InjectionExtension.class)
@@ -44,6 +40,11 @@ public abstract class AbstractCompilerTest {
 		return compiler.printCode();
 	}
 
+	/**
+	 * Récupère le code source d'un programme depuis les ressources du projet.
+	 * @param expectedProgramFilename Le chemin du programme
+	 * @return Le code source, ou null si non trouvé
+	 */
 	protected String getExpectedProgram(String expectedProgramFilename) {
 		try {
 			File file = new File("resources/" + expectedProgramFilename);
@@ -64,6 +65,13 @@ public abstract class AbstractCompilerTest {
 		}
 	}
 
+	/* FIXME Ce code n'est pas portable et uniquement fait pour Python. 
+	   Il est mis de côté pour l'instant. */
+	/**
+	 * Exécute le programme Python à partir du nom de fichier
+	 * @param programFileName Le nom du programme
+	 */
+	@SuppressWarnings("unused")
 	private void executeProgram(String programFileName) {
 		try {
 			StringBuilder output = new StringBuilder();

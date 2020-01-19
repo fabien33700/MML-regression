@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 public class RCompilerTest extends AbstractCompilerTest {
 	@Test
 	public void test_NoRformula() throws Exception {
-		String source = "datainput \"titanic.csv\" separator ,\n" + 
+		String source = "datainput \"./titanic.csv\" separator ,\n" + 
 				"mlframework R\n"+
 				"algorithm DT\n" + 
 				"TrainingTest { percentageTraining 70 }\n" + 
@@ -17,6 +17,7 @@ public class RCompilerTest extends AbstractCompilerTest {
 		String expected = getExpectedProgram("rlang/DecisionTree.r");
 
 		String result = compile(source);
+		System.out.println(result);
 		assertThat(result, containsSameText(expected));
 	}
 }

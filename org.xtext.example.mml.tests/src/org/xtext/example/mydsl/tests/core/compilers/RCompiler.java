@@ -42,8 +42,8 @@ public class RCompiler extends AbstractMmlCompiler {
 	public void writeImports() {
 		
 		AlgorithmEnum algo = model.getTargetInfo().getAlgorithm();
-		List<MetricEnum> metrics = model.getValidation().getMetrics();
-		StratificationEnum stratification = model.getValidation().getStratificationMethod();
+//		List<MetricEnum> metrics = model.getValidation().getMetrics();
+//		StratificationEnum stratification = model.getValidation().getStratificationMethod();
 		if (algo == AlgorithmEnum.DT) {
 			append("library(caret)");
 			append("library(e1071)");
@@ -59,8 +59,8 @@ public class RCompiler extends AbstractMmlCompiler {
 		String dataInputName = dataInput.getFileLocation();
 		int seed = 678;
 		append("set.seed(" + seed + ")");
-		append("path <-" + dataInputName);
-		append("titanic <-read.csv(path)");
+		append("path <- '" + dataInputName + "'");
+		append("titanic <- read.csv(path)");
 		append("shuffle_index <- sample(1:nrow(titanic))");
 		append("titanic <- titanic[shuffle_index, ]");
 	}

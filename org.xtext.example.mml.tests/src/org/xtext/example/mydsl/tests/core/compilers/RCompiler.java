@@ -15,79 +15,73 @@ import org.xtext.example.mydsl.tests.model.MMLModelFacade.MetricEnum;
  */
 public class RCompiler extends AbstractMmlCompiler {
 
-	public RCompiler(MMLModelFacade model) {
-		super(model);
-	}
+    public RCompiler(MMLModelFacade model) {
+        super(model);
+    }
 
-	@Override
-	public boolean targetFramework(FrameworkEnum framework) {
-		return framework == FrameworkEnum.R;
-	}
+    @Override
+    public boolean targetFramework(FrameworkEnum framework) {
+        return framework == FrameworkEnum.R;
+    }
 
-	@Override
-	public boolean supportAlgorithm(AlgorithmEnum algo) {
-		return Arrays.asList(AlgorithmEnum.DT).contains(algo);
-	}
+    @Override
+    public boolean supportAlgorithm(AlgorithmEnum algo) {
+        return Arrays.asList(AlgorithmEnum.DT).contains(algo);
+    }
 
-	@Override
-	public boolean supportMetric(MetricEnum metric) {
-		List<MetricEnum> supported = Arrays.asList(MetricEnum.MAE, MetricEnum.MAPE, MetricEnum.ACC);
-		return supported.contains(metric);
-	}
+    @Override
+    public boolean supportMetric(MetricEnum metric) {
+        List<MetricEnum> supported = Arrays.asList(MetricEnum.MAE, MetricEnum.MAPE, MetricEnum.ACC);
+        return supported.contains(metric);
+    }
 
-	@Override
-	public void writeImports() {
-		
-		AlgorithmEnum algo = model.getTargetInfo().getAlgorithm();
+    @Override
+    public void writeImports() {
+
+        AlgorithmEnum algo = model.getTargetInfo().getAlgorithm();
 //		List<MetricEnum> metrics = model.getValidation().getMetrics();
 //		StratificationEnum stratification = model.getValidation().getStratificationMethod();
-		if (algo == AlgorithmEnum.DT) {
-			append("library(caret)\n"
-					+ "library(e1071)\n"
-					+ "library(rpart)\n"
-					+ "library(rpart.plot)\n"
-					+ "library(dplyr)\n");
-		} else System.out.println("Algorithme non pris en charge.");
-	}
+        if (algo == AlgorithmEnum.DT) {
+            append("library(caret)\n" + "library(e1071)\n" + "library(rpart)\n" + "library(rpart.plot)\n"
+                    + "library(dplyr)\n");
+        } else
+            System.out.println("Algorithme non pris en charge.");
+    }
 
-	@Override
-	public void writeDataLoading() {
-		append("set.seed(678)\n" + 
-				"path <- './titanic.csv'");
-		
-		DataInputFacade dataInput = model.getDataInput();
+    @Override
+    public void writeDataLoading() {
+        append("set.seed(678)\n" + "path <- './titanic.csv'");
 
-		String csvReading = String.format("titanic <-read.csv(path)", dataInput.getFileLocation(),
-				dataInput.getCsvSeparator().orElse(","));
-		append(csvReading);
-	}
+        DataInputFacade dataInput = model.getDataInput();
 
-	@Override
-	public void writeShuffling() {
-		append("shuffle_index <- sample(1:nrow(titanic))\n" + 
-				"titanic <- titanic[shuffle_index, ]");
-	}
+        String csvReading = String.format("titanic <-read.csv(path)", dataInput.getFileLocation(),
+                dataInput.getCsvSeparator().orElse(","));
+        append(csvReading);
+    }
 
-	@Override
-	public void writeColumnsExtract() {
-		
-		
-	}
+    @Override
+    public void writeShuffling() {
+        append("shuffle_index <- sample(1:nrow(titanic))\n" + "titanic <- titanic[shuffle_index, ]");
+    }
 
-	@Override
-	public void writeStratification() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void writeColumnsExtract() {
 
-	@Override
-	public void writeAlgorithmInvocation() {
-		// TODO Auto-generated method stub
-	}
+    }
 
-	@Override
-	public void writeResultPrinting() {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void writeStratification() {
+        // TODO Auto-generated method stub
+    }
 
+    @Override
+    public void writeAlgorithmInvocation() {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void writeResultPrinting() {
+        // TODO Auto-generated method stub
+    }
 
 }

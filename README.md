@@ -14,14 +14,10 @@ _Guillaume Collet – Valentin Duval – Yoann Even – Fabien Le Houëdec_
 *   Note sur le code mise en oeuvre : l’abstraction autour des compilateurs
 *   Démarche d’implémentation : le langage R
 *   **Le classement des différents algorithmes**
-*   Emplacement des livrables attendus
 
-
-## 
+**Note** : Une version Google Doc de ce rapport est disponible [ici](https://docs.google.com/document/d/1C6ZVDqG4syQWhE8BuJwKysC-Nc23neb7bu9wn1lQT7M/edit?usp=sharing)
 
 ---
-
-
 
 ## Emplacement des livrables attendus 
 
@@ -98,11 +94,7 @@ La fabrique `CompilerFactory` possède une méthode `findTargetCompiler()` qui a
 
 Les implémentations des compilateurs pour les différentes cibles se situent dans le package <code><em>core.compilers</em></code> du projet<code> <em>org.xtext.example.mml.tests</em></code>.
 
-
-
 ---
-
-
 
 ## Implémentation en langage R
 

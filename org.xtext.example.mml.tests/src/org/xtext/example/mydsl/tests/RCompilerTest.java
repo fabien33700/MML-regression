@@ -6,18 +6,14 @@ import static org.xtext.example.mydsl.tests.TextFileMatcher.containsSameText;
 import org.junit.jupiter.api.Test;
 
 public class RCompilerTest extends AbstractCompilerTest {
-	@Test
-	public void test_NoRformula() throws Exception {
-		String source = "datainput \"./titanic.csv\" separator ,\n" + 
-				"mlframework R\n"+
-				"algorithm DT\n" + 
-				"TrainingTest { percentageTraining 70 }\n" + 
-				"accuracy\n" + 
-				"";
-		String expected = getExpectedProgram("rlang/DecisionTree.r");
+    @Test
+    public void test_NoRformula() throws Exception {
+        String source = "datainput \"./titanic.csv\" separator ,\n" + "mlframework R\n" + "algorithm DT\n"
+                + "TrainingTest { percentageTraining 70 }\n" + "accuracy\n" + "";
+        String expected = getExpectedProgram("rlang/DecisionTree.r");
 
-		String result = compile(source);
-		System.out.println(result);
-		assertThat(result, containsSameText(expected));
-	}
+        String result = compile(source);
+        System.out.println(result);
+        assertThat(result, containsSameText(expected));
+    }
 }

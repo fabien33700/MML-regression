@@ -81,16 +81,6 @@ public class TextFileMatcher extends TypeSafeDiagnosingMatcher<String> {
             actualLines.removeIf(line -> line.trim().isEmpty());
         }
 
-        // Comparaison du nombre de ligne
-//		if (actualLines.size() != expectedLines.size()) {
-//			description.appendText("Expected text should have <")
-//				.appendValue(expectedLines.size())
-//				.appendText("> lines but actual one has <")
-//				.appendValue(actualLines.size())
-//				.appendText("> lines");
-//			return false;
-//		}
-
         // Récupération d'un itérateur pour les lignes de chaque texte,
         // ce qui va nous permettre de parcourir les deux textes ligne par ligne
         // simultanément

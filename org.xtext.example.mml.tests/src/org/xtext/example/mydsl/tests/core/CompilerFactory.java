@@ -21,14 +21,6 @@ import org.xtext.example.mydsl.tests.model.MMLModelFacade;
 public class CompilerFactory {
 
     /**
-     * Représente une cible de compilation du langage MML
-     * 
-     * @author Fabien
-     *
-     */
-    // public static interface MMLTarget extends Compiler<MMLModelFacade> {}
-
-    /**
      * Liste des implémentations de compilateurs disponibles
      */
     private static final List<Class<? extends AbstractMmlCompiler>> availableTargetTypes = Arrays

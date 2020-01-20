@@ -10,22 +10,17 @@ package org.xtext.example.mydsl.tests.core;
  *
  */
 public interface ProgramStructure {
+
     /**
      * Ecrit les imports nécessaires au programme cible
      */
     default void writeImports() {
     }
-
+    
     /**
      * Ecrit le code de chargement des données
      */
     default void writeDataLoading() {
-    }
-
-    /**
-     * 
-     */
-    default void writeShuffling() {
     }
 
     /**
@@ -60,7 +55,6 @@ public interface ProgramStructure {
     default void writeProgram() {
         writeImports();
         writeDataLoading();
-        writeShuffling();
         writeColumnsExtract();
         writeStratification();
         writeAlgorithmInvocation();

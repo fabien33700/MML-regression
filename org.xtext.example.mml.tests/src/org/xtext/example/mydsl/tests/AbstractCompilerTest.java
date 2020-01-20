@@ -1,8 +1,5 @@
 package org.xtext.example.mydsl.tests;
 
-import static org.junit.Assert.assertThat;
-import static org.xtext.example.mydsl.tests.TextFileMatcher.containsSameText;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -18,7 +15,6 @@ import org.xtext.example.mydsl.mml.MMLModel;
 import org.xtext.example.mydsl.tests.core.AbstractMmlCompiler;
 import org.xtext.example.mydsl.tests.core.CompilerFactory;
 
-import com.google.common.io.Files;
 import com.google.inject.Inject;
 
 @ExtendWith(InjectionExtension.class)
